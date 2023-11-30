@@ -1,0 +1,28 @@
+from django.core.management import execute_from_command_line
+
+if __name__ == "__main__":
+    execute_from_command_line()
+
+    
+from django.db import models
+
+class User(models.Model):
+    username = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    password = models.CharField(max_length=128)
+
+class Activity(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    activity_type = models.CharField(max_length=50)
+    duration = models.DurationField()
+    date = models.DateField()
+
+class Achievement(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    
+class Goal(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    target = models.IntegerField()
+    progress = models.IntegerField(default=0)
